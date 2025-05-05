@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Cart</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>🛒 Your Order</h1>
+
+  <div id="cart-items"></div>
+  <h2 id="total">Total: $0.00</h2>
+
+  <button onclick="placeOrder()">Place Order</button><br><br>
+  <a href="index.html">← Back to Menu</a>
+
+  <script>
+    // Get cart from localStorage
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // Display cart items
+    let cartItemsDiv = document.getElementById('cart-items');
+    let total = 0;
+
+    if (cart.length === 0) {
+      cartItemsDiv.innerHTML = "<p>Your cart is empty.</p>";
+    } else {
+      cart.forEach((item, index) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.innerHTML = `<p>${item.name} - $${item.price.toFixed(2)}</p>`;
+        cartItemsDiv.appendChild(itemDiv);
+        total += item.price;
+      });
+    }
+
+    document.getElementById('total').innerText = `Total: $${total.toFixed(2)}`;
+
+    // Place order (clear cart)
+    function placeOrder() {
+      if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+      }
+      alert("Thank you! Your order has been placed.");
+      localStorage.removeItem('cart');
+      location.reload(); // refresh the page
+    }
+  </script>
+</body>
+</html>
